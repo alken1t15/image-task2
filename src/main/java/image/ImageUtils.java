@@ -32,6 +32,8 @@ public class ImageUtils {
         byte[] bgr = ((DataBufferByte) rgb.getRaster().getDataBuffer()).getData();
         byte[] data = new byte[bgr.length];
         for (int i = 0; i < bgr.length; i += ColorImage.CHANNELS) {
+            // BufferedImage хранит TYPE_3BYTE_BGR как BGR, а внутри проекта
+            // я работаю с RGB, поэтому здесь меняю местами красный и синий.
             data[i] = bgr[i + 2];
             data[i + 1] = bgr[i + 1];
             data[i + 2] = bgr[i];
@@ -48,6 +50,8 @@ public class ImageUtils {
 
         byte[] dst = ((DataBufferByte) output.getRaster().getDataBuffer()).getData();
         for (int i = 0; i < image.data.length; i += ColorImage.CHANNELS) {
+            // При сохранении возвращаю байты из внутреннего RGB обратно в BGR,
+            // потому что такой порядок ожидает BufferedImage.
             dst[i] = image.data[i + 2];
             dst[i + 1] = image.data[i + 1];
             dst[i + 2] = image.data[i];
@@ -63,6 +67,7 @@ public class ImageUtils {
     static String extractFormat(String path) {
         int dot = path.lastIndexOf('.');
         if (dot == -1 || dot == path.length() - 1) {
+            // Если расширение не указано, сохраняю как PNG.
             return "png";
         }
         return path.substring(dot + 1).toLowerCase(Locale.ROOT);

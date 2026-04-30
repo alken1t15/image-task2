@@ -21,6 +21,9 @@ public class Main {
             return;
         }
 
+        // Сначала разбираю режим запуска, а уже потом проверяю аргументы
+        // конкретной команды. Так CLI остаётся одним для последовательной
+        // и параллельной версии.
         String mode = args[0].toLowerCase(Locale.ROOT);
 
         switch (mode) {
@@ -59,6 +62,8 @@ public class Main {
     }
 
     private static void apply(String inputPath, String outputPath, String filterName) throws IOException {
+        // Загружаю изображение один раз и замеряю только саму фильтрацию,
+        // без чтения и записи файла.
         ColorImage input = ImageUtils.loadColor(inputPath);
 
         long start = System.nanoTime();
@@ -76,6 +81,8 @@ public class Main {
             ParallelStrategy strategy,
             int threads
     ) throws IOException {
+        // В параллельном режиме логика такая же, но работу по пикселям
+        // делит выбранная стратегия.
         ColorImage input = ImageUtils.loadColor(inputPath);
 
         long start = System.nanoTime();
@@ -97,6 +104,8 @@ public class Main {
         int checksum = 0;
 
         for (int i = 0; i < iterations; i++) {
+            // checksum заставляет JVM реально использовать результат фильтра,
+            // чтобы замер не превратился в бесполезный цикл.
             long start = System.nanoTime();
             ColorImage out = applyFilter(input, filterName);
             long elapsed = System.nanoTime() - start;
@@ -141,6 +150,8 @@ public class Main {
     private static ColorImage applyFilter(ColorImage input, String filterName) {
         String name = filterName.toLowerCase(Locale.ROOT);
         if (name.startsWith("median")) {
+            // Median filter не задаётся ядром свёртки, поэтому обрабатываю его
+            // отдельной веткой.
             return MedianFilter.apply(input, parseMedianWindowSize(name));
         }
 
