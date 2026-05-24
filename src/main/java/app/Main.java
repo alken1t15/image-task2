@@ -207,10 +207,10 @@ public class Main {
     private static void printUsage() {
         System.out.println("""
             Usage:
-              java Main apply <input> <output> <filterName>
-              java Main benchmark <input> <filterName> <iterations>
-              java Main apply-parallel <input> <output> <filterName> <strategy> <threads>
-              java Main benchmark-parallel <input> <filterName> <strategy> <threads> <iterations>
+              java app.Main apply <input> <output> <filterName>
+              java app.Main benchmark <input> <filterName> <iterations>
+              java app.Main apply-parallel <input> <output> <filterName> <strategy> <threads>
+              java app.Main benchmark-parallel <input> <filterName> <strategy> <threads> <iterations>
 
             Parallel strategies:
               pixels

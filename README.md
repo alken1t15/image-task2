@@ -12,7 +12,6 @@
 - `filter` — последовательные фильтры, ядра свёртки и median filter;
 - `parallel` — параллельная обработка и стратегии разбиения изображения;
 - `app` — логика командной строки;
-- `Main` в корне — совместимая точка входа для запуска `java Main ...`.
 
 ## Сборка и запуск
 
@@ -31,21 +30,21 @@ mvn clean package
 Последовательная обработка:
 
 ```bash
-java -cp target/classes Main apply <input> <output> <filterName>
-java -cp target/classes Main benchmark <input> <filterName> <iterations>
+java -cp target/classes app.Main apply <input> <output> <filterName>
+java -cp target/classes app.Main benchmark <input> <filterName> <iterations>
 ```
 
 Параллельная обработка:
 
 ```bash
-java -cp target/classes Main apply-parallel <input> <output> <filterName> <strategy> <threads>
-java -cp target/classes Main benchmark-parallel <input> <filterName> <strategy> <threads> <iterations>
+java -cp target/classes app.Main apply-parallel <input> <output> <filterName> <strategy> <threads>
+java -cp target/classes app.Main benchmark-parallel <input> <filterName> <strategy> <threads> <iterations>
 ```
 
 Пример:
 
 ```bash
-java -cp target/classes Main apply-parallel input.png output.png gaussian5 grid 8
+java -cp target/classes app.Main apply-parallel input.png output.png gaussian5 grid 8
 ```
 
 ## Поддерживаемые фильтры
